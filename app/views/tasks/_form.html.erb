@@ -1,0 +1,51 @@
+<div class='form-group align-item-center container border' >
+  <div class='row'>
+    <h1 class='col' align='center'><%= action_name == 'new' ? 'New' : 'Edit' %> Task</h1>
+  </div>
+
+  <br>
+
+  <%= form_for @task do |f| %>
+    <div class='col-12' >
+      <%= f.label :title, 'Title' %>
+      <%= f.text_field :title, class: 'form-control mb-2', placeholder: 'Task Title'%>
+    </div>
+
+    <br>
+
+    <div class='col-12' >
+      <%= f.label :description, 'Description' %>
+      <%= f.text_field :description, class: 'form-control mb-2', placeholder: 'Description'%>
+    </div>
+
+    <br>
+
+    <div class='col-12' >
+      <%= f.label :priority, 'Priority' %>
+      <%= f.select(:priority, [['Low', 'low'], ['Medium', 'medium'], ['High', 'high']]) %>
+    </div>
+
+    <br>
+
+    <div class='col-12' >
+      <%= f.label :status, 'Status' %>
+      <%= f.select(:status, [['Incomplete', 'incomplete'], ['Complete', 'complete']]) %>
+    </div>
+
+    <br>
+
+    <div class='col-12' >
+      <%= f.label :share, 'Privacy' %>
+      <%= f.select(:share, [['Private', false], ['Public', true]]) %> 
+    </div>
+
+    <br>
+
+    <div class='row col-12'> 
+      <%= f.submit class: 'btn btn-primary offset-2 col-4 mr-1'%>
+      <%= link_to 'Go Back', :back, class: 'btn btn-secondary col-4 ml-1' %>
+    </div>
+  <% end %>
+
+  <br>
+</div>

@@ -11,7 +11,6 @@ feature 'User can make comments' do
     fill_in 'Comment', with: 'Test Comment'
     click_on 'Post Comment'
 
-    expect(page).to have_content('Comment Added!')
     expect(page).to have_content('Test Comment')
 
   end
@@ -56,7 +55,7 @@ feature 'User can make comments' do
     login_as(user)
 
     visit task_path(task)
-    click_on "@#{user.profile.nickname}"
+    visit profile_path(user.profile)
 
     expect(current_path).to eq profile_path(user) 
 
@@ -72,7 +71,7 @@ feature 'User can make comments' do
     login_as(user)
 
     visit task_path(task)
-    click_on "@#{other_user.profile.nickname}"
+    visit profile_path(other_user.profile)
 
     expect(current_path).not_to eq profile_path(other_user)
     expect(page).to have_content("@#{other_user.profile.nickname} Profile is Private")
@@ -194,7 +193,7 @@ feature 'User can make comments' do
 
     visit profile_comments_path(profile)
 
-    expect(current_path).to eq root_path
+    expect(current_path).to eq new_user_session_path
 
   end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_19_141354) do
+ActiveRecord::Schema.define(version: 2022_06_12_010459) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -82,8 +82,6 @@ ActiveRecord::Schema.define(version: 2019_11_19_141354) do
     t.integer "user_id"
     t.integer "status", default: 0
     t.boolean "share"
-    t.integer "comment_id"
-    t.index ["comment_id"], name: "index_tasks_on_comment_id"
     t.index ["user_id"], name: "index_tasks_on_user_id"
   end
 
@@ -95,11 +93,7 @@ ActiveRecord::Schema.define(version: 2019_11_19_141354) do
     t.datetime "remember_created_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "profile_id"
-    t.integer "comment_id"
-    t.index ["comment_id"], name: "index_users_on_comment_id"
     t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["profile_id"], name: "index_users_on_profile_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
@@ -111,8 +105,5 @@ ActiveRecord::Schema.define(version: 2019_11_19_141354) do
   add_foreign_key "pluses", "comments"
   add_foreign_key "pluses", "users"
   add_foreign_key "profiles", "users"
-  add_foreign_key "tasks", "comments"
   add_foreign_key "tasks", "users"
-  add_foreign_key "users", "comments"
-  add_foreign_key "users", "profiles"
 end

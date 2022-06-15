@@ -1,0 +1,88 @@
+<div class='container border'>
+
+  <div class='row'>
+    <h1 class='col' align='center'>Tasks</h1>
+  </div>
+
+  <br>
+
+  <table class='table'>
+    <thead>
+      <tr>
+        <th scope='col'>
+          <% if params[:order] == 'id_asc' %>
+            <%= link_to tasks_path(order: 'id_desc') do %>ID <i class='fa fa-caret-down'></i><% end %>
+          <% elsif params[:order] == 'id_desc' %>
+            <%= link_to tasks_path(order: 'id_asc') do %>ID <i class='fa fa-caret-up'></i><% end %>
+          <% else %>
+            <%= link_to tasks_path(order: 'id_asc') do %>ID<% end %>
+          <% end %>
+        </th>
+        <th scope='col'>
+          <% if params[:order] == 'title_asc' %>
+            <%= link_to tasks_path(order: 'title_desc') do %>Title <i class='fa fa-caret-down'></i><% end %>
+          <% elsif params[:order] == 'title_desc' %>
+            <%= link_to tasks_path(order: 'title_asc') do %>Title <i class='fa fa-caret-up'></i><% end %>
+          <% else %>
+            <%= link_to tasks_path(order: 'title_asc') do %>Title<% end %>
+          <% end %>
+        </th>
+        <th scope='col'>
+          <% if params[:order] == 'description_asc' %>
+            <%= link_to tasks_path(order: 'description_desc') do %>Description <i class='fa fa-caret-down'></i><% end %>
+          <% elsif params[:order] == 'description_desc' %>
+            <%= link_to tasks_path(order: 'description_asc') do %>Description <i class='fa fa-caret-up'></i><% end %>
+          <% else %>
+            <%= link_to tasks_path(order: 'description_asc') do %>Description<% end %>
+          <% end %>
+        </th>
+        <th scope='col'>
+          <% if params[:order] == 'priority_asc' %>
+            <%= link_to tasks_path(order: 'priority_desc') do %>Priority <i class='fa fa-caret-down'></i><% end %>
+          <% elsif params[:order] == 'priority_desc' %>
+            <%= link_to tasks_path(order: 'priority_asc') do %>Priority <i class='fa fa-caret-up'></i><% end %>
+          <% else %>
+            <%= link_to tasks_path(order: 'priority_asc') do %>Priority<% end %>
+          <% end %>
+        </th>
+        <th scope='col'>
+          <% if params[:order] == 'status_asc' %>
+            <%= link_to tasks_path(order: 'status_desc') do %>Status <i class='fa fa-caret-down'></i><% end %>
+          <% elsif params[:order] == 'status_desc' %>
+            <%= link_to tasks_path(order: 'status_asc') do %>Status <i class='fa fa-caret-up'></i><% end %>
+          <% else %>
+            <%= link_to tasks_path(order: 'status_asc') do %>Status<% end %>
+          <% end %>
+        </th>
+        <th scope='col'>
+          <% if params[:order] == 'email_asc' %>
+            <%= link_to tasks_path(order: 'email_desc') do %>User <i class='fa fa-caret-down'></i><% end %>
+          <% elsif params[:order] == 'email_desc' %>
+            <%= link_to tasks_path(order: 'email_asc') do %>User <i class='fa fa-caret-up'></i><% end %>
+          <% else %>
+            <%= link_to tasks_path(order: 'email_asc') do %>User<% end %>
+          <% end %>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @tasks.each do |task| %>
+        <tr>
+          <th scope='row'><%= link_to task.id, task_path(task) %></th>
+          <td><%= task.title %></td>
+          <td><%= task.description %></td>
+          <td><%= task.priority %></td>
+          <td><%= task.status %></td>
+          <td>
+            <% if current_user == task.user || task.user.profile.share %>
+              <%= link_to task.user.email, profile_path(task.user.profile) %>
+            <% else %>
+              Private
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+</div>

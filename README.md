@@ -8,7 +8,7 @@ Considere o app deste projeto já estruturado, onde nele conseguimos cadastrar t
   ```
                 ____________
                | User       |
-        _____* | - email    |
+        ____ 1 | - email    |
        /       | - password |
       /        |____________|
      /

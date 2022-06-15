@@ -4,9 +4,6 @@
 
   <p> Edit <%= @profile.nickname %> Profile </p>
   <%= form_for @profile do |f| %> 
-
-      <%= f.hidden_field :user_id, value: params[:id]%>
-
       <div>
         <%= f.label :bio, 'Your Bio:'%>
         <%= f.text_area :bio, class: 'form-control mb-2', rows: '4'%>

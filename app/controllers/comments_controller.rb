@@ -1,5 +1,6 @@
 class CommentsController < ApplicationController
-  before_action :comment_owner?
+  before_action :authenticate_user!
+  before_action :comment_owner?, only: [:index]
 
   def index
     @comments = Comment.where(user: current_user)
@@ -11,7 +12,20 @@ class CommentsController < ApplicationController
         @comments.order!(:created_at)
       end
     end
-  end 
+  end
+
+  def destroy
+    @comment = Comment.find(params[:id])
+    @task = @comment.task
+
+    if current_user == @comment.user || current_user == @comment.task.user
+      @comment.destroy
+
+      flash[:notice] = 'Comment Removed!'
+    end
+
+    redirect_to @task
+  end
 
   private 
     

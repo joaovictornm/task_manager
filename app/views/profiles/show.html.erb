@@ -40,7 +40,6 @@
         <div class='form-group'>
           <strong class='text-center'><%= f.label :share, 'Change Privacy:' %></strong>
           <%= f.select(:share, [['Private', false], ['Public', true]]) %> 
-          <%= f.hidden_field :profile_id, value: params[:id] %> 
           <%= f.submit 'Change Setting' %>
         </div>
         <% end %>

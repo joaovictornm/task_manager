@@ -1,18 +1,23 @@
 class ProfilesController < ApplicationController
   before_action :authenticate_user!
-  before_action :public?, except: %i[private_page]
+  before_action :find_profile, only: [:show, :edit, :update, :change_privacy, :private_page]
+  before_action :public?, except: [:new, :private_page]
  
   def show 
   end
 
   def new
+    if current_user.profile
+      redirect_to current_user.profile
+    end
+
     @profile = Profile.new
   end
 
   def create 
     @profile = Profile.create(profile_params)
     @profile.user = current_user
-    current_user.profile_id = @profile.id
+
     if @profile.save
       flash[:notice] = 'Profile Created!'
       redirect_to @profile
@@ -22,11 +27,14 @@ class ProfilesController < ApplicationController
   end
 
   def edit 
+    if current_user.profile != @profile
+      redirect_to @profile
+    end
   end
 
   def update
-    if @profile.update(profile_params)
-      flash[:notice] = 'Task Updated!'
+    if current_user.profile == @profile && @profile.update(profile_params)
+      flash[:notice] = 'Profile Updated!'
       redirect_to @profile
     else
       render :edit
@@ -34,16 +42,22 @@ class ProfilesController < ApplicationController
   end
 
   def change_privacy
-    @profile.update(privacy_params)
+    if current_user.profile == @profile && privacy_params[:share] != @profile.share.to_s && @profile.update(privacy_params)
+      flash[:notice] = 'Privacy Updated!'
+    end
     redirect_to @profile
   end
 
   def private_page 
+    if current_user.profile == @profile || @profile.share
+      redirect_to @profile
+    end
   end
 
   private 
 
   def profile_params
+    params.require(:profile).permit(:nickname, :bio, :avatar)
   end 
 
   def privacy_params
@@ -55,12 +69,9 @@ class ProfilesController < ApplicationController
   end
 
   def public?
-    unless (current_user.profile == @profile)
-      unless @profile.share
-        redirect_to private_page_profile_path(@profile)
-      end
+    if current_user.profile != @profile && @profile.share.blank?
+      redirect_to private_page_profile_path(@profile)
     end
   end
-
 end
   
